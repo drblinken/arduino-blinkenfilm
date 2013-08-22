@@ -2,7 +2,7 @@
 // available boards BOARD0-BOARD9
 #include <EEPROM.h>
 #define BOARD0
-#include "pins2.h"
+#include "pins.h"
 
 #define FILMLENGTH 640
 #define MAXDELAY 800
@@ -15,20 +15,20 @@ unsigned int count = 0;
 unsigned int nextFrame = 0;
 byte rollOverCount = 0;
 
-// these are the loop variables for 
-// storing and showing films and for 
+// these are the loop variables for
+// storing and showing films and for
 // the counter.
 unsigned int nextFrameToStore = 0;
 unsigned int nextFrameToShow = 0;
 unsigned int counter = 0;
 unsigned int delayBeforeStart = 0;
 
-void setup() { 
+void setup() {
   Serial.begin(9600);
   pinMode(buttonPin,INPUT);
   for (int i=0;i<NUMBERLEDS;i++)
-    pinMode(pins[i], OUTPUT); 
-  Serial.println("Arduino ready.");  
+    pinMode(pins[i], OUTPUT);
+  Serial.println("Arduino ready.");
 }
 
 void loop(){
@@ -42,14 +42,14 @@ void loop(){
     if (hasFilm)
     {
       if (delayBeforeStart > 0)
-        delayBeforeStart--; 
+        delayBeforeStart--;
       else {
         if (storing){
           displayFilm();
           storing = false;
         }
         playFilm();
-      } 
+      }
 
     }
     else
@@ -81,8 +81,8 @@ void showFrame(unsigned int frame){
 }
 
 void doCount(){
-  // just to do something: replace this with the counter 
-     
+  // just to do something: replace this with the counter
+
   for (int i=0;i<NUMBERLEDS;i++){
     digitalWrite(pins[i],ON);
     delay(100);
@@ -90,8 +90,8 @@ void doCount(){
    for (int i=0;i<NUMBERLEDS;i++){
     digitalWrite(pins[i],OFF);
     delay(100);
-  } 
-  
+  }
+
 }
 
 int normalizeDelay(int d){
