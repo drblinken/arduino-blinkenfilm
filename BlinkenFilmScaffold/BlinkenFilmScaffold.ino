@@ -57,21 +57,6 @@ void loop(){
   }
 }
 
-void displayFilm(){
-  int upperBound = (rollOverCount > 0) ? FILMLENGTH : nextFrameToStore;
-  for(int i = 0;i<upperBound-1;i=i+2){
-    Serial.print(i);
-    Serial.print(" ");
-    Serial.print(EEPROM.read(i),HEX);
-    Serial.print(EEPROM.read(i+1),HEX);
-    Serial.print(" ");
-    Serial.print(EEPROM.read(i),BIN);
-    Serial.println(EEPROM.read(i+1),BIN);
-  }
-  Serial.print("rollOverCount ");
-  Serial.println(rollOverCount);
-
-}
 void playFilm(){
 }
 void storeFilm(){
@@ -79,7 +64,10 @@ void storeFilm(){
 
 void showFrame(unsigned int frame){
 }
-
+/*
+   just a little animation to do somethings before
+   a film has been transferred
+*/
 void doCount(){
   // just to do something: replace this with the counter
 
@@ -103,6 +91,56 @@ int normalizeDelay(int d){
 int normalizedToDelay(int n){
   if (n == 0) return MAXDELAY;
   return n*DELAYFACTOR;
+}
+
+
+
+/* 
+     debug method to show the film in eeprom 
+*/
+void displayFilm(){
+  int upperBound = (rollOverCount > 0) ? FILMLENGTH : nextFrameToStore;
+  for(int i = 0;i<upperBound-1;i=i+2){
+    Serial.print("Frame no ");
+    Serial.println(i);
+    print_binary(EEPROM.read(i),8);
+    Serial.println();
+    print_binary(EEPROM.read(i+1),8);
+    Serial.println();
+  }
+  Serial.print("rollOverCount ");
+  Serial.println(rollOverCount);
+}
+// copied from http://www.phanderson.com/arduino/arduino_display.html
+
+void print_binary(int v, int num_places)
+{
+    int mask=0, n;
+
+    for (n=1; n<=num_places; n++)
+    {
+        mask = (mask << 1) | 0x0001;
+    }
+    v = v & mask;  // truncate v to specified number of places
+
+    while(num_places)
+    {
+
+        if (v & (0x0001 << num_places-1))
+        {
+             Serial.print("1");
+        }
+        else
+        {
+             Serial.print("0");
+        }
+
+        --num_places;
+        if(((num_places%4) == 0) && (num_places != 0))
+        {
+            Serial.print("_");
+        }
+    }
 }
 
 
