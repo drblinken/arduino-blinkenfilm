@@ -1,7 +1,7 @@
 
 // available boards BOARD0-BOARD9
 #include <EEPROM.h>
-#define BOARD0
+#define BOARD2
 #include "pins.h"
 
 #define FILMLENGTH 640
@@ -25,7 +25,7 @@ unsigned int delayBeforeStart = 0;
 
 void setup() {
   Serial.begin(9600);
-  pinMode(buttonPin,INPUT);
+  pinMode(buttonPin1,INPUT);
   for (int i=0;i<NUMBERLEDS;i++)
     pinMode(pins[i], OUTPUT);
   Serial.println("Arduino ready.");
